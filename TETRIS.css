@@ -31,6 +31,11 @@ body {
   }
 
   .grid div.tetromino {
-    background-color: #ff5733 !important; /* Force the background color */
     border: 1px solid #fff;
   }
+
+.tetromino-0 { background-color: #ff5733 !important; } /* L Tetromino */
+.tetromino-1 { background-color: #33ff57 !important; } /* T Tetromino */
+.tetromino-2 { background-color: #5733ff !important; } /* Z Tetromino */
+.tetromino-3 { background-color: #ffd700 !important; } /* O Tetromino */
+.tetromino-4 { background-color: #00ffff !important; } /* I Tetromino */

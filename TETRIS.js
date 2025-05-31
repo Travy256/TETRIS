@@ -5,26 +5,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const grid = document.querySelector('.grid');
     const squares = [];
-    
+
     let currentPosition = 4; // Starting position of the tetromino
     let currentRotation = 0;
   
     // Create the grid
     for (let i = 0; i < width * height; i++) {
-      const square = document.createElement('div');
-      grid.appendChild(square);
-      squares.push(square);
+        const square = document.createElement('div');
+        grid.appendChild(square);
+        squares.push(square);
+    }
+    
+    // Add a solid bottom row
+    for (let i = 0; i < width; i++) {
+        const square = document.createElement('div');
+        square.classList.add('taken'); // Mark as taken to act as the bottom boundary
+        grid.appendChild(square);
+        squares.push(square);
     }
   
     // Define Tetrominoes
     const lTetromino = [
-      [1, width + 1, width * 2 + 1, 2],
-      [width, width + 1, width + 2, width * 2 + 2],
-      [1, width + 1, width * 2 + 1, width * 2],
-      [width, width * 2, width * 2 + 1, width * 2 + 2],
+        [1, width + 1, width * 2 + 1, 2],
+        [width, width + 1, width + 2, width * 2 + 2],
+        [1, width + 1, width * 2 + 1, width * 2],
+        [width, width * 2, width * 2 + 1, width * 2 + 2],
     ];
   
-    const tetrominoes = [lTetromino]; // Add more tetrominoes here
+    const tTetromino = [
+        [1, width, width + 1, width + 2],
+        [1, width + 1, width + 2, width * 2 + 1],
+        [width, width + 1, width + 2, width * 2 + 1],
+        [1, width, width + 1, width * 2 + 1],
+      ];
+      
+      const zTetromino = [
+        [0, width, width + 1, width * 2 + 1],
+        [width + 1, width + 2, width * 2, width * 2 + 1],
+        [0, width, width + 1, width * 2 + 1],
+        [width + 1, width + 2, width * 2, width * 2 + 1],
+      ];
+      
+      const oTetromino = [
+        [0, 1, width, width + 1],
+        [0, 1, width, width + 1],
+        [0, 1, width, width + 1],
+        [0, 1, width, width + 1],
+      ];
+      
+      const iTetromino = [
+        [1, width + 1, width * 2 + 1, width * 3 + 1],
+        [width, width + 1, width + 2, width + 3],
+        [1, width + 1, width * 2 + 1, width * 3 + 1],
+        [width, width + 1, width + 2, width + 3],
+      ];
+
+      const tetrominoes = [lTetromino, tTetromino, zTetromino, oTetromino, iTetromino];
   
     // Select a random tetromino
     let random = Math.floor(Math.random() * tetrominoes.length);
@@ -32,10 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Draw the tetromino
     function draw() {
-      current.forEach(index => {
-        squares[currentPosition + index].classList.add('tetromino');
-      });
-    }
+        current.forEach(index => {
+          squares[currentPosition + index].classList.add('tetromino');
+          squares[currentPosition + index].classList.add(`tetromino-${random}`); // Add unique class
+        });
+      }
   
     // Undraw the tetromino
     function undraw() {

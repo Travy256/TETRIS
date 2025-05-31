@@ -29,3 +29,8 @@ body {
     background-color: #444;
     border-radius: 3px;
   }
+
+  .grid div.tetromino {
+    background-color: #ff5733 !important; /* Force the background color */
+    border: 1px solid #fff;
+  }

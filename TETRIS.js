@@ -92,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
       freeze();
     }
   
-    // Freeze the tetromino when it reaches the bottom or another tetromino
     function freeze() {
         if (current.some(index => squares[currentPosition + index + width]?.classList.contains('taken'))) {
           current.forEach(index => squares[currentPosition + index].classList.add('taken'));
@@ -110,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             clearInterval(timerId);
       
             // Play game over sound
-            document.getElementById('gameover-sound').play();
+            playSound('sounds/gameover.wav');
       
             alert('Game Over');
           }
@@ -129,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draw();
       
         // Play move sound
-        document.getElementById('move-sound').play();
+        playSound('sounds/move.wav');
       }
       
       function moveRight() {
@@ -142,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draw();
       
         // Play move sound
-        document.getElementById('move-sound').play();
+        playSound('/sounds/move.wav');
       }
       
       function rotate() {
@@ -152,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draw();
       
         // Play rotate sound
-        document.getElementById('rotate-sound').play();
+        playSound('sounds/rotate.wav');
       }
   
       function checkForFullRows() {
@@ -178,9 +177,14 @@ document.addEventListener('DOMContentLoaded', () => {
             scoreDisplay.textContent = score;
       
             // Play clear row sound
-            document.getElementById('clear-sound').play();
+            playSound('sounds/clear.mp3');
           }
         }
+      }
+
+      function playSound(src) {
+        const sound = new Audio(src);
+        sound.play();
       }
 
     // Assign functions to keycodes

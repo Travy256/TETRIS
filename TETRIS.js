@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid');
     const squares = [];
 
+    let score = 0; // Initialize the score
+    const scoreDisplay = document.getElementById('score'); // Assuming you have a score display in your HTML
+
     let currentPosition = 4; // Starting position of the tetromino
     let currentRotation = 0;
   
@@ -75,10 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Undraw the tetromino
     function undraw() {
-      current.forEach(index => {
-        squares[currentPosition + index].classList.remove('tetromino');
-      });
-    }
+        current.forEach(index => {
+          squares[currentPosition + index].classList.remove('tetromino'); // Remove the generic tetromino class
+          squares[currentPosition + index].classList.remove(`tetromino-${random}`); // Remove the specific tetromino class
+        });
+      }
   
     // Make the tetromino fall
     function moveDown() {
@@ -90,20 +94,21 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Freeze the tetromino when it reaches the bottom or another tetromino
     function freeze() {
-        // Check if the tetromino has reached the bottom or another taken square
         if (current.some(index => squares[currentPosition + index + width]?.classList.contains('taken'))) {
-          // Mark the current tetromino squares as taken
           current.forEach(index => squares[currentPosition + index].classList.add('taken'));
       
-          // Start a new tetromino falling
+          // Check for full rows
+          checkForFullRows();
+      
+          // Start a new tetromino
           random = Math.floor(Math.random() * tetrominoes.length);
           current = tetrominoes[random][currentRotation];
           currentPosition = 4;
       
-          // Check if the new tetromino overlaps with taken squares (Game Over)
+          // Check for Game Over
           if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
-            clearInterval(timerId); // Stop the game
-            alert('Game Over'); // Notify the user
+            clearInterval(timerId);
+            alert('Game Over');
           }
       
           draw();
@@ -140,6 +145,31 @@ document.addEventListener('DOMContentLoaded', () => {
       draw();
     }
   
+    function checkForFullRows() {
+        for (let i = 0; i < height; i++) {
+          const rowStart = i * width;
+          const row = squares.slice(rowStart, rowStart + width);
+      
+          // Check if all squares in the row are taken
+          if (row.every(square => square.classList.contains('taken'))) {
+            // Remove the row
+            row.forEach(square => {
+              square.classList.remove('taken', 'tetromino', ...Array.from(square.classList)); // Remove all classes
+              square.style.backgroundColor = ''; // Reset background color
+            });
+      
+            // Add a new empty row at the top
+            const removedSquares = squares.splice(rowStart, width);
+            squares.unshift(...removedSquares);
+            removedSquares.forEach(square => grid.prepend(square));
+      
+            // Update the score
+            score += 10;
+            scoreDisplay.textContent = score;
+          }
+        }
+      }
+
     // Assign functions to keycodes
     function control(e) {
       if (e.keyCode === 37) {

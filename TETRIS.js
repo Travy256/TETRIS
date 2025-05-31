@@ -108,6 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
           // Check for Game Over
           if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
             clearInterval(timerId);
+      
+            // Play game over sound
+            document.getElementById('gameover-sound').play();
+      
             alert('Game Over');
           }
       
@@ -115,37 +119,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
   
-    // Move the tetromino left, unless it's at the edge or blocked
-    function moveLeft() {
-      undraw();
-      const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0);
-      if (!isAtLeftEdge) currentPosition -= 1;
-      if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
-        currentPosition += 1;
+      function moveLeft() {
+        undraw();
+        const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0);
+        if (!isAtLeftEdge) currentPosition -= 1;
+        if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+          currentPosition += 1;
+        }
+        draw();
+      
+        // Play move sound
+        document.getElementById('move-sound').play();
       }
-      draw();
-    }
-  
-    // Move the tetromino right, unless it's at the edge or blocked
-    function moveRight() {
-      undraw();
-      const isAtRightEdge = current.some(index => (currentPosition + index) % width === width - 1);
-      if (!isAtRightEdge) currentPosition += 1;
-      if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
-        currentPosition -= 1;
+      
+      function moveRight() {
+        undraw();
+        const isAtRightEdge = current.some(index => (currentPosition + index) % width === width - 1);
+        if (!isAtRightEdge) currentPosition += 1;
+        if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+          currentPosition -= 1;
+        }
+        draw();
+      
+        // Play move sound
+        document.getElementById('move-sound').play();
       }
-      draw();
-    }
+      
+      function rotate() {
+        undraw();
+        currentRotation = (currentRotation + 1) % current.length;
+        current = tetrominoes[random][currentRotation];
+        draw();
+      
+        // Play rotate sound
+        document.getElementById('rotate-sound').play();
+      }
   
-    // Rotate the tetromino
-    function rotate() {
-      undraw();
-      currentRotation = (currentRotation + 1) % current.length;
-      current = tetrominoes[random][currentRotation];
-      draw();
-    }
-  
-    function checkForFullRows() {
+      function checkForFullRows() {
         for (let i = 0; i < height; i++) {
           const rowStart = i * width;
           const row = squares.slice(rowStart, rowStart + width);
@@ -166,6 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update the score
             score += 10;
             scoreDisplay.textContent = score;
+      
+            // Play clear row sound
+            document.getElementById('clear-sound').play();
           }
         }
       }

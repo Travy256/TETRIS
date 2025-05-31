@@ -16,12 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
         squares.push(square);
     }
     
-    // Add a solid bottom row
+    // Add a solid bottom row (invisible boundary)
     for (let i = 0; i < width; i++) {
         const square = document.createElement('div');
         square.classList.add('taken'); // Mark as taken to act as the bottom boundary
-        grid.appendChild(square);
-        squares.push(square);
+        squares.push(square); // Add to the squares array but NOT to the visible grid
     }
   
     // Define Tetrominoes
@@ -91,15 +90,25 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Freeze the tetromino when it reaches the bottom or another tetromino
     function freeze() {
-      if (current.some(index => squares[currentPosition + index + width]?.classList.contains('taken'))) {
-        current.forEach(index => squares[currentPosition + index].classList.add('taken'));
-        // Start a new tetromino falling
-        random = Math.floor(Math.random() * tetrominoes.length);
-        current = tetrominoes[random][currentRotation];
-        currentPosition = 4;
-        draw();
+        // Check if the tetromino has reached the bottom or another taken square
+        if (current.some(index => squares[currentPosition + index + width]?.classList.contains('taken'))) {
+          // Mark the current tetromino squares as taken
+          current.forEach(index => squares[currentPosition + index].classList.add('taken'));
+      
+          // Start a new tetromino falling
+          random = Math.floor(Math.random() * tetrominoes.length);
+          current = tetrominoes[random][currentRotation];
+          currentPosition = 4;
+      
+          // Check if the new tetromino overlaps with taken squares (Game Over)
+          if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+            clearInterval(timerId); // Stop the game
+            alert('Game Over'); // Notify the user
+          }
+      
+          draw();
+        }
       }
-    }
   
     // Move the tetromino left, unless it's at the edge or blocked
     function moveLeft() {

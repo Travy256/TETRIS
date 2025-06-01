@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Start a new tetromino
             currentRotation = 0; // Reset rotation
             currentPosition = 4; // Reset position
+
             random = Math.floor(Math.random() * tetrominoes.length);
 
             // Check for Game Over
@@ -166,12 +167,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         undraw();
 
-        currentRotation = (currentRotation + 1) % tetrominoes[random].length;
+        const nextRotation = (currentRotation + 1) % tetrominoes[random].length;
+        const nextShape = tetrominoes[random][nextRotation];
+
+        function isValid(pos) {
+            return nextShape.every(index => {
+                const newPos = pos + index;
+                if (newPos < 0 || newPos >= width * height) return false;
+                // Prevent wrapping: ensure the block stays in the correct row
+                const fromCol = (pos % width);
+                const toCol = ((pos + index) % width + width) % width; // always positive
+                if (Math.abs(toCol - fromCol) > 4) return false; // 4 is max tetromino width
+                if (toCol < 0 || toCol >= width) return false;
+                if (squares[newPos]?.classList.contains('taken')) return false;
+                return true;
+            });
+        }
+
+        // Try normal rotation and wall kicks up to 2 columns left/right
+        for (let offset of [0, 1, -1, 2, -2]) {
+            if (isValid(currentPosition + offset)) {
+                currentPosition += offset;
+                currentRotation = nextRotation;
+                break;
+            }
+        }
+
+        playSound('sounds/rotate.wav');
 
         draw();
-
-        // Play rotate sound
-        playSound('sounds/rotate.wav');
 
     }
 
@@ -235,9 +259,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', control);
 
+    const timerId = setInterval(moveDown, 1000);
+
     // Start the game
     draw();
-
-    const timerId = setInterval(moveDown, 1000);
 
 });

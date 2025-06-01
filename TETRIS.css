@@ -1,46 +1,70 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+
     margin: 0;
-    background-color: #000;
-    color: #fff;
-    font-family: Arial, sans-serif;
-  }
-  
-  .tetris-container {
+    height: 100vh;
+
     display: flex;
-    flex-direction: column;
     align-items: center;
-  }
-  
-  .grid {
-    display: grid;
-    grid-template-rows: repeat(20, 25px);
-    grid-template-columns: repeat(10, 25px);
-    gap: 3px;
+    justify-content: center;
+
+    color: #fff;
     background-color: #000;
-  }
-  
-  .grid div {
-    width: 25px;
-    height: 25px;
-    background-color: #444;
+    font-family: Arial, sans-serif;
+
+}
+
+.tetris-container {
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.grid {
+
+    gap: 3px;
+
+    display: grid;
+
+    background-color: #000;
+
+    grid-template-rows: repeat(20, 32px);
+    grid-template-columns: repeat(10, 32px);
+
+}
+
+.grid div {
+
+    width: 32px;
+    height: 32px;
+
     border-radius: 3px;
-  }
-  
-  .grid div.taken {
-    background-color: transparent; /* Make the solid bottom row invisible */
+    background-color: #444;
+
+}
+
+.grid div.taken {
+    background-color: transparent;
     border: none;
-  }
+}
 
-  .grid div.tetromino {
-    border: 1px solid #fff;
-  }
+.tetromino-0 {
+    background-color: #ff5733 !important;
+}
 
-.tetromino-0 { background-color: #ff5733 !important; } /* L Tetromino */
-.tetromino-1 { background-color: #33ff57 !important; } /* T Tetromino */
-.tetromino-2 { background-color: #5733ff !important; } /* Z Tetromino */
-.tetromino-3 { background-color: #ffd700 !important; } /* O Tetromino */
-.tetromino-4 { background-color: #00ffff !important; } /* I Tetromino */
+.tetromino-1 {
+    background-color: #33ff57 !important;
+}
+
+.tetromino-2 {
+    background-color: #5733ff !important;
+}
+
+.tetromino-3 {
+    background-color: #ffd700 !important;
+}
+
+.tetromino-4 {
+    background-color: #00ffff !important;
+}

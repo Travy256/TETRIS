@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draw();
 
         // Play move sound
-        playSound('/sounds/move.wav');
+        playSound('sounds/move.wav');
 
     }
 
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 scoreDisplay.textContent = score;
 
                 // Play clear row sound
-                playSound('sounds/clear.mp3');
+                playSound('sounds/clear.wav');
 
             }
 
@@ -211,12 +211,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    function playSound(src) {
-
-        const sound = new Audio(src);
-
-        sound.play();
-
+    async function playSound(src) {
+        return new Promise((resolve, reject) => {
+            const sound = new Audio(src);
+            sound.onended = resolve;
+            sound.onerror = reject;
+            sound.play();
+        });
     }
 
     // Assign functions to keycodes

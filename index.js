@@ -67,11 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Select a random tetromino
     let random = Math.floor(Math.random() * tetrominoes.length);
-    let current = tetrominoes[random][currentRotation];
 
     // Draw the tetromino
     function draw() {
-        current.forEach(index => {
+        tetrominoes[random][currentRotation].forEach(index => {
             squares[currentPosition + index].classList.add('tetromino');
             squares[currentPosition + index].classList.add(`tetromino-${random}`); // Add unique class
         });
@@ -79,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Undraw the tetromino
     function undraw() {
-        current.forEach(index => {
+        tetrominoes[random][currentRotation].forEach(index => {
             squares[currentPosition + index].classList.remove('tetromino'); // Remove the generic tetromino class
             squares[currentPosition + index].classList.remove(`tetromino-${random}`); // Remove the specific tetromino class
         });
@@ -95,20 +94,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function freeze() {
 
-        if (current.some(index => squares[currentPosition + index + width]?.classList.contains('taken'))) {
+        if (tetrominoes[random][currentRotation].some(index => squares[currentPosition + index + width]?.classList.contains('taken'))) {
 
-            current.forEach(index => squares[currentPosition + index].classList.add('taken'));
+            tetrominoes[random][currentRotation].forEach(index => squares[currentPosition + index].classList.add('taken'));
 
             // Check for full rows
             checkForFullRows();
 
             // Start a new tetromino
+            currentRotation = 0; // Reset rotation
+            currentPosition = 4; // Reset position
             random = Math.floor(Math.random() * tetrominoes.length);
-            current = tetrominoes[random][currentRotation];
-            currentPosition = 4;
 
             // Check for Game Over
-            if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+            if (tetrominoes[random][currentRotation].some(index => squares[currentPosition + index].classList.contains('taken'))) {
 
                 clearInterval(timerId);
 
@@ -129,11 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         undraw();
 
-        const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0);
+        const isAtLeftEdge = tetrominoes[random][currentRotation].some(index => (currentPosition + index) % width === 0);
 
         if (!isAtLeftEdge) currentPosition -= 1;
 
-        if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+        if (tetrominoes[random][currentRotation].some(index => squares[currentPosition + index].classList.contains('taken'))) {
             currentPosition += 1;
         }
 
@@ -148,11 +147,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         undraw();
 
-        const isAtRightEdge = current.some(index => (currentPosition + index) % width === width - 1);
+        const isAtRightEdge = tetrominoes[random][currentRotation].some(index => (currentPosition + index) % width === width - 1);
 
         if (!isAtRightEdge) currentPosition += 1;
 
-        if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+        if (tetrominoes[random][currentRotation].some(index => squares[currentPosition + index].classList.contains('taken'))) {
             currentPosition -= 1;
         }
 
@@ -167,8 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         undraw();
 
-        currentRotation = (currentRotation + 1) % current.length;
-        current = tetrominoes[random][currentRotation];
+        currentRotation = (currentRotation + 1) % tetrominoes[random].length;
 
         draw();
 
@@ -189,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Remove the row
                 row.forEach(square => {
-                    square.classList.remove('taken', 'tetromino', ...Array.from(square.classList)); // Remove all classes
+                    square.className = '';
                     square.style.backgroundColor = ''; // Reset background color
                 });
 

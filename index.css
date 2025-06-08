@@ -68,3 +68,7 @@ body {
 .tetromino-4 {
     background-color: #00ffff !important;
 }
+
+.ghost {
+    opacity: 0.5;
+  }

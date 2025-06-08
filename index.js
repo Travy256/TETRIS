@@ -71,8 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Draw the tetromino
     function draw() {
         tetrominoes[random][currentRotation].forEach(index => {
-            squares[currentPosition + index].classList.add('tetromino');
-            squares[currentPosition + index].classList.add(`tetromino-${random}`); // Add unique class
+            const squareIndex = currentPosition + index;
+            if (squareIndex >= 0 && squareIndex < squares.length) { // Ensure index is within bounds
+                squares[squareIndex].classList.add('tetromino');
+                squares[squareIndex].classList.add(`tetromino-${random}`); // Add unique class
+            }
         });
     }
 
@@ -82,14 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
             squares[currentPosition + index].classList.remove('tetromino'); // Remove the generic tetromino class
             squares[currentPosition + index].classList.remove(`tetromino-${random}`); // Remove the specific tetromino class
         });
-    }
-
-    // Make the tetromino fall
-    function moveDown() {
-        undraw();
-        currentPosition += width;
-        draw();
-        freeze();
     }
 
     function freeze() {
@@ -120,14 +115,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             draw();
+            drawGhost();
 
         }
 
     }
 
-    function moveLeft() {
+    // Make the tetromino fall
+    function moveDown() {
+        console.log('moveDown');
 
         undraw();
+        undrawGhost();
+
+        currentPosition += width;
+
+        draw();
+        drawGhost();
+
+        freeze();
+
+    }
+
+    function moveLeft() {
+
+        playSound('sounds/move.wav');
+
+        undraw();
+        undrawGhost();
 
         const isAtLeftEdge = tetrominoes[random][currentRotation].some(index => (currentPosition + index) % width === 0);
 
@@ -138,15 +153,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         draw();
-
-        // Play move sound
-        playSound('sounds/move.wav');
+        drawGhost();
 
     }
 
     function moveRight() {
 
+        playSound('sounds/move.wav');
+
         undraw();
+        drawGhost();
 
         const isAtRightEdge = tetrominoes[random][currentRotation].some(index => (currentPosition + index) % width === width - 1);
 
@@ -157,15 +173,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         draw();
-
-        // Play move sound
-        playSound('sounds/move.wav');
+        drawGhost();
 
     }
 
     function rotate() {
 
+        playSound('sounds/rotate.wav');
+
         undraw();
+        undrawGhost();
 
         const nextRotation = (currentRotation + 1) % tetrominoes[random].length;
         const nextShape = tetrominoes[random][nextRotation];
@@ -193,9 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        playSound('sounds/rotate.wav');
-
         draw();
+        drawGhost();
 
     }
 
@@ -231,6 +247,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
 
+    }
+
+    // Function to calculate the ghost position
+    function calculateGhostPosition() {
+        let ghostPosition = currentPosition;
+    
+        // Move the ghost down until it collides with a taken square or the bottom
+        while (
+            !tetrominoes[random][currentRotation].some(index => {
+                const squareIndex = ghostPosition + index + width;
+                return squareIndex >= squares.length || squares[squareIndex]?.classList.contains('taken');
+            })
+        ) {
+            ghostPosition += width;
+        }
+    
+        return ghostPosition;
+    }
+
+    // Function to draw the ghost block
+    function drawGhost() {
+        const ghostPosition = calculateGhostPosition();
+    
+        tetrominoes[random][currentRotation].forEach(index => {
+            const squareIndex = ghostPosition + index;
+            if (squareIndex >= 0 && squareIndex < squares.length) { // Ensure index is within bounds
+                squares[squareIndex].classList.add('ghost');
+            }
+        });
+    }
+
+    // Function to undraw the ghost block
+    function undrawGhost() {
+        squares.forEach(square => square.classList.remove('ghost'));
     }
 
     async function playSound(src) {

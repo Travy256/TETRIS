@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playSound('sounds/move.wav');
 
         undraw();
-        drawGhost();
+        undrawGhost();
 
         const isAtRightEdge = tetrominoes[random][currentRotation].some(index => (currentPosition + index) % width === width - 1);
 
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to calculate the ghost position
     function calculateGhostPosition() {
         let ghostPosition = currentPosition;
-    
+
         // Move the ghost down until it collides with a taken square or the bottom
         while (
             !tetrominoes[random][currentRotation].some(index => {
@@ -262,14 +262,14 @@ document.addEventListener('DOMContentLoaded', () => {
         ) {
             ghostPosition += width;
         }
-    
+
         return ghostPosition;
     }
 
     // Function to draw the ghost block
     function drawGhost() {
         const ghostPosition = calculateGhostPosition();
-    
+
         tetrominoes[random][currentRotation].forEach(index => {
             const squareIndex = ghostPosition + index;
             if (squareIndex >= 0 && squareIndex < squares.length) { // Ensure index is within bounds
@@ -286,15 +286,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function hardDrop() {
         // Calculate the ghost position
         const ghostPosition = calculateGhostPosition();
-    
+
         // Move the tetromino to the ghost position
         undraw();
         currentPosition = ghostPosition;
         draw();
-    
+
         // Freeze the tetromino in place
         freeze();
-    
+
         // Play a sound for the hard drop (optional)
         playSound('sounds/harddrop.wav');
     }

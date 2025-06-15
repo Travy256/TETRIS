@@ -133,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Make the tetromino fall
     function moveDown() {
-        console.log('moveDown');
 
         undraw();
         undrawGhost();

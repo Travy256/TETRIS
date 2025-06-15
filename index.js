@@ -283,6 +283,22 @@ document.addEventListener('DOMContentLoaded', () => {
         squares.forEach(square => square.classList.remove('ghost'));
     }
 
+    function hardDrop() {
+        // Calculate the ghost position
+        const ghostPosition = calculateGhostPosition();
+    
+        // Move the tetromino to the ghost position
+        undraw();
+        currentPosition = ghostPosition;
+        draw();
+    
+        // Freeze the tetromino in place
+        freeze();
+    
+        // Play a sound for the hard drop (optional)
+        playSound('sounds/harddrop.wav');
+    }
+
     async function playSound(src) {
         return new Promise((resolve, reject) => {
             const sound = new Audio(src);
@@ -294,7 +310,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Assign functions to keycodes
     function control(e) {
-
         if (e.keyCode === 37) {
             moveLeft();
         } else if (e.keyCode === 39) {
@@ -303,8 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
             rotate();
         } else if (e.keyCode === 40) {
             moveDown();
+        } else if (e.keyCode === 13) {
+            hardDrop();
         }
-
     }
 
     document.addEventListener('keydown', control);

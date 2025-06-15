@@ -13,6 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPosition = 4; // Starting position of the tetromino
     let currentRotation = 0;
 
+    const previewGrid = document.querySelector('.preview-grid');
+    const previewSquares = [];
+    
+    // Create the preview grid (4x4)
+    for (let i = 0; i < 16; i++) {
+        const square = document.createElement('div');
+        previewGrid.appendChild(square);
+        previewSquares.push(square);
+    }
+
     // Create the grid
     for (let i = 0; i < width * height; i++) {
         const square = document.createElement('div');

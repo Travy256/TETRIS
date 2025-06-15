@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const previewGrid = document.querySelector('.preview-grid');
     const previewSquares = [];
-    
+
     // Create the preview grid (4x4)
     for (let i = 0; i < 16; i++) {
         const square = document.createElement('div');

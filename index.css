@@ -17,7 +17,7 @@ body {
     display: flex; /* Arrange children in a row */
     align-items: flex-start; /* Align items to the top */
     justify-content: center; /* Center the entire container horizontally */
-    gap: 20px; /* Add spacing between the preview and the grid */
+    gap: 38px; /* Add spacing between the preview and the grid */
 }
 
 .grid {

@@ -49,6 +49,10 @@ body {
     border: none;
 }
 
+.tetromino {
+    opacity: 1 !important;
+}
+
 .tetromino-0 {
     background-color: #ff5733 !important;
 }

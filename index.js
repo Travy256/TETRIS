@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let soundEnabled = localRead("sound") ?? true;
 
+    const infoIcon = document.getElementById('info-icon');
+
     const soundOnIcon = document.getElementById('sound-on-icon');
     const soundOffIcon = document.getElementById('sound-off-icon');
 
@@ -311,6 +313,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         playSound('sounds/drop.wav');
     }
+
+    infoIcon.addEventListener('click', () => {
+
+        let instructionsImg = document.getElementById('instructions');
+        let gameContainer = document.getElementById('game-container');
+
+        let instructionsVisible = instructionsImg.style.display === 'block';
+
+        if (instructionsVisible) {
+            instructionsImg.style.display = 'none';
+            gameContainer.style.display = 'flex';
+        } else {
+            instructionsImg.style.display = 'block';
+            gameContainer.style.display = 'none';
+        }
+
+    });
 
     async function playSound(src) {
         if (!soundEnabled) return;

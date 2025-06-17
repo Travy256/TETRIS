@@ -130,5 +130,14 @@ body {
 
 }
 
+img#instructions {
+
+    display: none;
+
+    width: 800px;
+    height: 800px;
+
+}
+
 #sound-on-icon.control-icon { display: block; }
 #sound-off-icon.control-icon { display: none; }

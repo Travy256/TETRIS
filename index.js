@@ -304,8 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Freeze the tetromino in place
         freeze();
 
-        // Play a sound for the hard drop (optional)
-        playSound('sounds/harddrop.wav');
+        playSound('sounds/drop.wav');
     }
 
     async function playSound(src) {

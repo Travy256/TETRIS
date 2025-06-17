@@ -102,3 +102,33 @@ body {
     background-color: #ff5733; /* Example color for tetromino */
     border: 1px solid #fff;
 }
+
+#control-icons {
+
+    position: absolute;
+
+    top: 0px;
+    left: 0px;
+
+    padding: 5px;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#control-icons .control-icon {
+
+    margin: 7px;
+
+    width: 30px;
+    height: 30px;
+
+    cursor: pointer;
+
+}
+
+#sound-on-icon.control-icon { display: block; }
+#sound-off-icon.control-icon { display: none; }

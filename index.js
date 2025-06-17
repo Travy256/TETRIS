@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewGrid = document.querySelector('.preview-grid');
     const previewSquares = [];
 
+    let soundEnabled = localRead("sound") ?? true;
+
+    const soundOnIcon = document.getElementById('sound-on-icon');
+    const soundOffIcon = document.getElementById('sound-off-icon');
+
     // Create the preview grid (4x4)
     for (let i = 0; i < 16; i++) {
         const square = document.createElement('div');
@@ -308,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function playSound(src) {
+        if (!soundEnabled) return;
         return new Promise((resolve, reject) => {
             const sound = new Audio(src);
             sound.onended = resolve;
@@ -315,6 +321,25 @@ document.addEventListener('DOMContentLoaded', () => {
             sound.play();
         });
     }
+
+    function updateSoundSetting(value) {
+
+        soundEnabled = value;
+
+        localWrite("sound", soundEnabled);
+
+        soundOnIcon.style.display = soundEnabled ? 'block' : 'none';
+        soundOffIcon.style.display = soundEnabled ? 'none' : 'block';
+
+    }
+
+    soundOnIcon.addEventListener('click', () => {
+        updateSoundSetting(false);
+    });
+
+    soundOffIcon.addEventListener('click', () => {
+        updateSoundSetting(true);
+    });
 
     // Assign functions to keycodes
     function control(e) {
@@ -335,7 +360,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const timerId = setInterval(moveDown, 1000);
 
-    // Start the game
+    updateSoundSetting(soundEnabled);
+
+    // Start the game!
     draw();
 
 });

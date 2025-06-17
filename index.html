@@ -1,61 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+    <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" href="imgs/theme/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="imgs/theme/favicon.ico" type="image/x-icon">
 
-    <title>Travy Tetris</title>
+        <title>Travy Tetris</title>
 
-    <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="index.css">
 
-    <script src="libs/localStorage.min.js"></script>
+        <script src="libs/localStorage.min.js"></script>
 
-    <audio id="move-sound" src="sounds/move.wav"></audio>
-    <audio id="rotate-sound" src="sounds/rotate.wav"></audio>
-    <audio id="clear-sound" src="sounds/clear.wav"></audio>
-    <audio id="gameover-sound" src="sounds/gameover.wav"></audio>
+        <audio id="clear-sound" src="sounds/clear.wav"></audio>
+        <audio id="drop-sound" src="sounds/drop.wav"></audio>
+        <audio id="gameover-sound" src="sounds/gameover.wav"></audio>
+        <audio id="move-sound" src="sounds/move.wav"></audio>
+        <audio id="rotate-sound" src="sounds/rotate.wav"></audio>
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-    <div id="control-icons">
+        <div id="control-icons">
 
-            <img id="info-icon" class="control-icon" src="imgs/info/icon.png" alt="Info">
+                <img id="info-icon" class="control-icon" src="imgs/info/icon.png" alt="Info">
 
-            <img id="sound-on-icon" class="control-icon" src="imgs/sound/on.png" alt="Sound On">
-            <img id="sound-off-icon" class="control-icon" src="imgs/sound/off.png" alt="Sound Off">
-
-    </div>
-
-    <div id="game-container" class="tetris-container">
-
-        <div class="preview-container">
-
-            <div class="preview-grid"></div>
-
-            <h3>Next</h3>
+                <img id="sound-on-icon" class="control-icon" src="imgs/sound/on.png" alt="Sound On">
+                <img id="sound-off-icon" class="control-icon" src="imgs/sound/off.png" alt="Sound Off">
 
         </div>
 
-        <div class="grid"></div>
+        <div id="game-container" class="tetris-container">
 
-        <div class="score-display">
+            <div class="preview-container">
 
-            <h1>Score: <span id="score">0</span></h1>
+                <div class="preview-grid"></div>
+
+                <h3>Next</h3>
+
+            </div>
+
+            <div class="grid"></div>
+
+            <div class="score-display">
+
+                <h1>Score: <span id="score">0</span></h1>
+
+            </div>
 
         </div>
 
-    </div>
+        <img id="instructions" src="imgs/info/instructions.png" alt="Instructions">
 
-    <img id="instructions" src="imgs/info/instructions.png" alt="Instructions">
+        <script src="index.js"></script>
 
-    <script src="index.js"></script>
-
-</body>
+    </body>
 
 </html>

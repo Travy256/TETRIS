@@ -4,8 +4,8 @@ body {
     height: 100vh;
 
     display: flex;
-    align-items: center; /* Center the .tetris-container vertically */
-    justify-content: center; /* Center the .tetris-container horizontally */
+    align-items: center;
+    justify-content: center;
 
     color: #fff;
     background-color: #000;
@@ -14,10 +14,13 @@ body {
 }
 
 .tetris-container {
-    display: flex; /* Arrange children in a row */
-    align-items: flex-start; /* Align items to the top */
-    justify-content: center; /* Center the entire container horizontally */
-    gap: 38px; /* Add spacing between the preview and the grid */
+
+    gap: 38px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
 }
 
 .grid {
@@ -44,63 +47,53 @@ body {
 }
 
 .grid div.taken {
-    background-color: transparent;
+
     border: none;
+
+    background-color: transparent;
+
 }
 
-.tetromino {
-    opacity: 1 !important;
-}
+.tetromino-0 { background-color: #ff5733 !important; }
+.tetromino-1 { background-color: #33ff57 !important; }
+.tetromino-2 { background-color: #5733ff !important; }
+.tetromino-3 { background-color: #ffd700 !important; }
+.tetromino-4 { background-color: #00ffff !important; }
 
-.tetromino-0 {
-    background-color: #ff5733 !important;
-}
-
-.tetromino-1 {
-    background-color: #33ff57 !important;
-}
-
-.tetromino-2 {
-    background-color: #5733ff !important;
-}
-
-.tetromino-3 {
-    background-color: #ffd700 !important;
-}
-
-.tetromino-4 {
-    background-color: #00ffff !important;
-}
-
-.ghost {
-    opacity: 0.5;
-}
+.tetromino { opacity: 1 !important; }
+.ghost { opacity: 0.5; }
 
 .preview-container {
-    position: relative; /* Position it relative to the parent container */
-    text-align: center;
+
     color: white;
+
+    position: relative;
+    text-align: center;
+
 }
 
 .preview-grid {
+
+    gap: 3px;
+
     display: grid;
-    grid-template-rows: repeat(4, 32px); /* Match the size of the main grid cells */
-    grid-template-columns: repeat(4, 32px); /* Match the size of the main grid cells */
-    gap: 3px; /* Match the gap of the main grid */
+
     justify-content: center;
-    background-color: #000; /* Match the background color of the main grid */
+    background-color: #000;
+
+    grid-template-rows: repeat(4, 32px);
+    grid-template-columns: repeat(4, 32px);
+
 }
 
 .preview-grid div {
-    width: 32px; /* Match the size of the main grid cells */
-    height: 32px; /* Match the size of the main grid cells */
-    border-radius: 3px; /* Match the border radius of the main grid cells */
-    background-color: #444; /* Match the default background color of the main grid cells */
-}
 
-.preview-grid .tetromino {
-    background-color: #ff5733; /* Example color for tetromino */
-    border: 1px solid #fff;
+    width: 32px;
+    height: 32px;
+
+    border-radius: 3px;
+    background-color: #444;
+
 }
 
 #control-icons {

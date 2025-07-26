@@ -13,6 +13,21 @@ body {
 
 }
 
+#forkme {
+
+    top: 0px;
+    right: 0px;
+
+    width: 150px;
+    height: 150px;
+
+    cursor: pointer;
+    position: fixed;
+
+    clip-path: polygon(15px 0px, 60px 0px, 150px 90px, 150px 135px);
+
+}
+
 .tetris-container {
 
     gap: 38px;

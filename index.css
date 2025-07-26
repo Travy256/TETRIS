@@ -134,3 +134,22 @@ img#instructions {
 
 #sound-on-icon.control-icon { display: block; }
 #sound-off-icon.control-icon { display: none; }
+
+.score-area {
+    display: flex;
+    flex-direction: column;
+}
+
+#scoreboard {
+    color: white;
+    margin-top: 16px;
+}
+
+#scoreboard ol {
+    padding-left: 20px;
+    margin: 0;
+}
+
+#scoreboard li {
+    font-size: 14px;
+}

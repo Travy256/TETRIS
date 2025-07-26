@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const grid = document.querySelector('.grid');
 
-    let gameOver = false; 
+    let gameOver = false;
 
     let score = 0; // Initialize the score
     const scoreDisplay = document.getElementById('score');
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function freeze() {
+    async function freeze() {
 
         if (tetrominoes[random][currentRotation].some(index => squares[currentPosition + index + width]?.classList.contains('taken'))) {
 
@@ -128,7 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     clearInterval(timerId); // Stop the game loop
 
                     // Play game over sound
-                    playSound('sounds/gameover.wav');
+                    await playSound('sounds/gameover.wav');
+
+                    checkHighScore(score);
 
                 }
             } else {
@@ -352,6 +354,44 @@ document.addEventListener('DOMContentLoaded', () => {
         soundOnIcon.style.display = soundEnabled ? 'block' : 'none';
         soundOffIcon.style.display = soundEnabled ? 'none' : 'block';
 
+    }
+
+    function getHighScores() {
+        return localRead('highScores') || [];
+    }
+
+    function saveHighScores(scores) {
+        return localWrite('highScores', scores);
+    }
+
+    function updateHighScoresDisplay() {
+        const highScores = getHighScores();
+        const highScoresList = document.getElementById('high-scores');
+        highScoresList.innerHTML = '';
+        highScores.slice(0, 10).forEach(entry => {
+            const li = document.createElement('li');
+            li.textContent = `${entry.name}: ${entry.score}`;
+            highScoresList.appendChild(li);
+        });
+    }
+
+    // Call this once on page load
+    updateHighScoresDisplay();
+
+    // Call this in your freeze() function, after game over is detected:
+    function checkHighScore(score) {
+        let highScores = getHighScores();
+        // Add the new score if it's in the top 10 or if there are less than 10 scores
+        if (highScores.length < 10 || score > highScores[highScores.length - 1].score) {
+            const name = prompt('New High Score! Enter your name:');
+            if (name) {
+                highScores.push({ name, score });
+                // Sort descending and keep top 10
+                highScores = highScores.sort((a, b) => b.score - a.score).slice(0, 10);
+                saveHighScores(highScores);
+                updateHighScoresDisplay();
+            }
+        }
     }
 
     soundOnIcon.addEventListener('click', () => {

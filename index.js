@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Select a random tetromino
     let random = Math.floor(Math.random() * tetrominoes.length);
+    let nextRandom = Math.floor(Math.random() * tetrominoes.length); // Initialize the next tetromino
 
     // Draw the tetromino
     function draw() {
@@ -119,7 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
             currentRotation = 0; // Reset rotation
             currentPosition = 4; // Reset position
 
-            random = Math.floor(Math.random() * tetrominoes.length);
+            random = nextRandom
+            nextRandom = Math.floor(Math.random() * tetrominoes.length); // Generate a new next tetromino
+
+            // Update the preview grid
+            displayNextTetromino();
 
             // Check for Game Over
             if (tetrominoes[random][currentRotation].some(index => squares[currentPosition + index].classList.contains('taken'))) {
@@ -267,6 +272,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
 
+    }
+
+    function displayNextTetromino() {
+        // Clear the preview grid
+        previewSquares.forEach(square => {
+            square.classList.remove('tetromino');
+            square.className = ''; // Remove all classes
+            square.style.backgroundColor = ''; // Reset background color
+        });
+    
+        // Define the tetromino shapes for the preview grid (4x4 grid)
+        const previewTetrominoes = [
+            [1, 5, 9, 2], // L Tetromino
+            [1, 4, 5, 6], // T Tetromino
+            [0, 4, 5, 9], // Z Tetromino
+            [5, 6, 9, 10], // O Tetromino
+            [1, 5, 9, 13], // I Tetromino
+        ];
+    
+        // Get the next tetromino's shape for the preview grid
+        previewTetrominoes[nextRandom].forEach(index => {
+            previewSquares[index].classList.add('tetromino');
+            previewSquares[index].classList.add(`tetromino-${nextRandom}`); // Add unique class for color
+        });
     }
 
     // Function to calculate the ghost position
@@ -427,5 +456,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Start the game!
     draw();
+    displayNextTetromino();
 
 });

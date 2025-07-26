@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const grid = document.querySelector('.grid');
 
+    let gameOver = false; 
+
     let score = 0; // Initialize the score
     const scoreDisplay = document.getElementById('score');
 
@@ -121,18 +123,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Check for Game Over
             if (tetrominoes[random][currentRotation].some(index => squares[currentPosition + index].classList.contains('taken'))) {
+                if (!gameOver) { // Only trigger game-over logic once
+                    gameOver = true; // Set the game-over flag
+                    clearInterval(timerId); // Stop the game loop
 
-                clearInterval(timerId);
+                    // Play game over sound
+                    playSound('sounds/gameover.wav');
 
-                // Play game over sound
-                playSound('sounds/gameover.wav');
-
-                alert('Game Over');
-
+                }
+            } else {
+                draw();
+                drawGhost();
             }
-
-            draw();
-            drawGhost();
 
         }
 
@@ -362,16 +364,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Assign functions to keycodes
     function control(e) {
-        if (e.keyCode === 37) {
-            moveLeft();
-        } else if (e.keyCode === 39) {
-            moveRight();
-        } else if (e.keyCode === 38) {
-            rotate();
-        } else if (e.keyCode === 40) {
-            moveDown();
-        } else if (e.keyCode === 13) {
-            hardDrop();
+        if (!gameOver) {
+            if (e.keyCode === 37) {
+                moveLeft();
+            } else if (e.keyCode === 39) {
+                moveRight();
+            } else if (e.keyCode === 38) {
+                rotate();
+            } else if (e.keyCode === 40) {
+                moveDown();
+            } else if (e.keyCode === 13) {
+                hardDrop();
+            }
         }
     }
 
